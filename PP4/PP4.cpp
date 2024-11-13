@@ -14,10 +14,10 @@ vector<string> ifWordInFile(vector<vector<char>> matrix, vector<char> line) {
                 bool flag = true;
                 ishor = true;
                 string horisontalWord = to_string(i) + ' ' + to_string(j);
-                horisontalWord += " hor";
+                horisontalWord += " hor ";
                 for (int k = 0; k < line.size() && flag; k++ ) {
-                    if(matrix.at(i).at(k + j) != line.at(k))
-                        flag = false;
+                        if (matrix.at(i).at(k + j) != line.at(k))
+                            flag = false;            
                 }
                 if (flag) {
                     result.push_back(horisontalWord);
@@ -27,10 +27,14 @@ vector<string> ifWordInFile(vector<vector<char>> matrix, vector<char> line) {
                 bool flag = true;
                 isvec = true;
                 string horisontalWord = to_string(i) + ' ' + to_string(j);
-                horisontalWord += " ver";
-                for (int k = 0; k < line.size() && flag; k++) {
-                    if (matrix.at(i + k).at(j) != line.at(k))
-                        flag = false;
+                horisontalWord += " ver ";
+                for (int k = 0; k < line.size() && flag; k++) { 
+                    if (matrix.at(i + k).size() > j)
+                    {
+                        if (matrix.at(i + k).at(j) != line.at(k))
+                            flag = false;
+                    }
+                    else flag = false;
                 }
                 if (flag) {
                     result.push_back(horisontalWord);
@@ -38,6 +42,7 @@ vector<string> ifWordInFile(vector<vector<char>> matrix, vector<char> line) {
             }
         }
     }
+
     return result;
     
 }
@@ -55,29 +60,37 @@ int main()
         vector<char> arr;
         while (file.get(symbol)) {
             if (symbol == '\n') {
-                matrix.push_back(arr);
+                matrix.push_back(arr);  
                 arr.erase(arr.begin(), arr.end());    //обнуляем вектор с новой строки
             }
             else arr.push_back(symbol);         
         }
-        matrix.push_back(arr);
-        vector<char> line;
-        string c;
-        cout << "enter your word: ";
-        cin >> c;
-        for (int i = 0; i < c.size(); i++) {
-            line.push_back(c[i]);
-        }
-        vector<string> result = ifWordInFile(matrix, line);
-        
-        for (int i = 0; i < result.size(); i++) {
-            cout << result.at(i);
+        vector<string> result;
+        while (result.size() == 0) {
+            matrix.push_back(arr);
+            vector<char> line;
+            string c;
+            cout << "enter your word: ";
+            cin >> c;
+            for (int i = 0; i < c.size(); i++) {
+                line.push_back(c[i]);
+            }
+
+            result = ifWordInFile(matrix, line);
+            if (result.size() == 0) {
+                cout << "Word is not found. Try again. " << endl;
+            }
+            else
+                for (int i = 0; i < result.size(); i++) {
+                    cout << result.at(i);
+                }
+            line.clear();
         }
 
         ostream_iterator<string> output_iterator(fileFinal, "\n");  //вывод результата  в файл
         std::copy(result.begin(), result.end(), output_iterator);
         result.clear();
-        line.clear();
+        
     }
     else
     {
