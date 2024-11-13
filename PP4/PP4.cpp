@@ -10,7 +10,7 @@ vector<string> ifWordInFile(vector<vector<char>> matrix, vector<char> line) {
     bool isvec = false;
     for (int i = 0; i < matrix.size(); i++) {
         for (int j = 0; j < matrix.at(i).size(); j++) {
-            if (matrix.at(i).size() - j >= line.size() && matrix.at(i).at(j) == line.at(0)) {
+            if ((matrix.at(i).size() - j) >= line.size() && matrix.at(i).at(j) == line.at(0)) {
                 bool flag = true;
                 ishor = true;
                 string horisontalWord = to_string(i) + ' ' + to_string(j);
@@ -60,6 +60,7 @@ int main()
             }
             else arr.push_back(symbol);         
         }
+        matrix.push_back(arr);
         vector<char> line;
         string c;
         cout << "enter your word: ";
